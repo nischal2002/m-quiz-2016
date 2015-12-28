@@ -8,17 +8,53 @@ MAX_CLASS=5
 QUIZ_INSTRUCTIONS = """
 Get ready for the quiz. You will have 10 questions out of which you 
 will need 8 right to win the prize. You will have """ + str(TIMEOUT) +  """ seconds
-to answer each question"""
+to answer each question.Press Enter to start."""
+QUESTION_COUNT=10
+ANSWER_GOAL=8
+
+
+
+def classOneQuiz():
+    '''this will the Quiz for CLASS 1'''
+    questionCount = 0
+    correctAnswers = 0
+    while(questionCount < QUESTION_COUNT):
+        if (additionQuestionClassOne()) :
+            correctAnswers = correctAnswers + 1;
+        questionCount = questionCount + 1
+    print("You got " + str(correctAnswers) + " correct");
+    if(correctAnswers >= ANSWER_GOAL):
+        print("congratulations!,you win!!!")
+    else :
+        print("sorry,better luck next time:)")
+          
+              
+
+
+def additionQuestionClassOne():
+    ''' This will ask a addition question and will wait for user 
+        input and will validate and input. It will terurn boolean true or false
+        based on if the user input is correct or wrong '''
+    if (random.randrange(0,2) == 1):
+        a = getRandomSingleDigitInt()
+        b = getRandomSingleDigitInt()
+        return additionQuestion(a,b)
+    else: 
+        a = getRandomSingleDigitInt()    
+        b = getRandomSingleDigitIntBelow(a)
+        return subtractionQuestion(a,b)
+
+
 
 def getRandomSingleDigitInt():
     ''' return a random single digit positive integer '''
-    return random.randrange(0,9)  # this returns a single digit random number(integer). Number in python means decimal number
+    return random.randrange(0,10)  # this returns a single digit random number(integer). Number in python means decimal number
 
 
 def getRandomSingleDigitIntBelow(x):
     ''' return a random single digit positive integer '''
     if x != 0:
-        return random.randrange(0,x)  # this returns a single digit random number(integer). Number in python means decimal number
+        return random.randrange(0,x+1)  # this returns a single digit random number(integer). Number in python means decimal number
     else :
         return 0
 
@@ -95,6 +131,9 @@ if __name__ == '__main__':
             break
 
     print(QUIZ_INSTRUCTIONS)
+    sys.stdin.readline()
+    if (usersClass == 1) :
+       classOneQuiz()
 
 
 
