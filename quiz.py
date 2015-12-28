@@ -17,9 +17,34 @@ def getRandomSingleDigitIntBelow(x):
     else :
         return 0
 
+def additionQuestion(a,b):
+    ''' This will ask a addition question and will wait for user 
+        input and will validate and input. It will terurn boolean true or false
+        based on if the user input is correct or wrong '''
+
+    print("You have "+str(TIMEOUT)+" seconds to answer this question")
+    print(str(a) + " + " + str(b) + " is : ")
+    answerReady, _, _ = select.select([sys.stdin],[],[],TIMEOUT)
+    # above line says that read from stdin and wait for TIMEOUT seconds 
+    # If no response for TIMEOUT seconds, then retun false
+    if answerReady : # if the answer has been input within the TIMEOUT seconds
+        #Let us read the answer and then calculate and see if the answer is correct  
+        try:
+            answer = int(sys.stdin.readline().strip()) # readline() reads the answer and strip() removes the enter key
+            if (answer == (a+b)): # Here we are checking if the answer is correct or wrong
+                return True
+            else :
+                return False
+        except: # If you return a non number, the code will come here
+            return False
+    else:
+        print(" Sorry you have run out of Time to answer the question")
+        return False
+
+
 
 def subtractionQuestion(a,b):
-    ''' This will ask a addition question and will wait for user 
+    ''' This will ask a substraction question and will wait for user 
         input and will validate and input. It will terurn boolean true or false
         based on if the user input is correct or wrong '''
 
@@ -45,8 +70,16 @@ def subtractionQuestion(a,b):
 
 if __name__ == '__main__':
     a = getRandomSingleDigitInt() # here we are getting a single digit random integer
-    b = getRandomSingleDigitIntBelow(a) # here we are getting another single digit random integer
+    b = getRandomSingleDigitIntBelow(a) # here we are getting another single digit random integer below a
     result = subtractionQuestion(a,b) # we are passing the above two numbers to our function/method
+    if result :
+        print("Congralations !!! Your answer is correct")
+    else :
+        print("Sorry Your answer is wrong")
+    
+    a = getRandomSingleDigitInt() # here we are getting a single digit random integer
+    b = getRandomSingleDigitInt() # here we are getting another single digit random integer
+    result = additionQuestion(a,b) # we are passing the above two numbers to our function/method
     if result :
         print("Congralations !!! Your answer is correct")
     else :
