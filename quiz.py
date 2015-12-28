@@ -4,6 +4,11 @@ import sys    # this allows you to read the user input from keyboard also called
 
 
 TIMEOUT=10  # this is the amount of time you will wait for an answer in Seconds. 10 means 10 seconds
+MAX_CLASS=5 
+QUIZ_INSTRUCTIONS = """
+Get ready for the quiz. You will have 10 questions out of which you 
+will need 8 right to win the prize. You will have """ + str(TIMEOUT) +  """ seconds
+to answer each question"""
 
 def getRandomSingleDigitInt():
     ''' return a random single digit positive integer '''
@@ -67,23 +72,29 @@ def subtractionQuestion(a,b):
         print(" Sorry you have run out of Time to answer the question")
         return False
 
+def getUsersClass():
+    ''' This function will get the user's class. It will compare the class with MAX_CLASS and
+    will return False if it is more than the MAX_CLASS. Class also has to be a natural number ''' 
+    print("Please tell me which Class you are in? ")
+    try:
+        usersClass = int(sys.stdin.readline().strip())
+        if (usersClass < 1 or usersClass > MAX_CLASS) :
+            print("No Quiz available for Class " + str(usersClass))
+            return False
+        else :
+            return usersClass
+    except :
+        print("Exception")
+        return False
+
 
 if __name__ == '__main__':
-    a = getRandomSingleDigitInt() # here we are getting a single digit random integer
-    b = getRandomSingleDigitIntBelow(a) # here we are getting another single digit random integer below a
-    result = subtractionQuestion(a,b) # we are passing the above two numbers to our function/method
-    if result :
-        print("Congralations !!! Your answer is correct")
-    else :
-        print("Sorry Your answer is wrong")
-    
-    a = getRandomSingleDigitInt() # here we are getting a single digit random integer
-    b = getRandomSingleDigitInt() # here we are getting another single digit random integer
-    result = additionQuestion(a,b) # we are passing the above two numbers to our function/method
-    if result :
-        print("Congralations !!! Your answer is correct")
-    else :
-        print("Sorry Your answer is wrong")
+    while(True) :
+        usersClass = getUsersClass()
+        if (usersClass != False) :
+            break
+
+    print(QUIZ_INSTRUCTIONS)
 
 
 
