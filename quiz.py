@@ -1,6 +1,8 @@
 import sys    # this allows you to read the user input from keyboard also called "stdin"
 import classOne # This imports all the classOne functions
-
+import classTwo # This imports all the classTwo functions
+import classThree # This imports all the classThree functions
+import classFour # This imports all the classFour functions
 
 TIMEOUT=10  # this is the amount of time you will wait for an answer in Seconds. 10 means 10 seconds
 MAX_CLASS=5 
@@ -38,6 +40,12 @@ if __name__ == '__main__':
     sys.stdin.readline()
     if (usersClass == 1) :
        classOne.classOneQuiz()
+    elif (usersClass == 2) :
+       classTwo.classTwoQuiz()
+    elif(usersClass == 3):
+        classThree.classThreeQuiz()
+    elif(usersClass == 4):
+        classFour.classFourQuiz()
 
 
 
