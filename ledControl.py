@@ -27,9 +27,16 @@ def redLedOn(onTime = LED_ON_TIME) :
     redLed.off()
 
 def buzzerOn(onTime = BUZZER_ON_TIME) :
-    buzzer.on();
+    buzzer.on()
     sleep(onTime) 
-    buzzer.off();
+    buzzer.off()
+    
+def redLedBuzzerOn(onTime = LED_ON_TIME):
+    redLed.on()
+    buzzer.on()
+    sleep(onTime) 
+    buzzer.off()
+    redLed.off()
 
 def buzzerPulse(numOfPulses, pulseTime):
     while numOfPulses > 0:
