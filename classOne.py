@@ -2,9 +2,47 @@ import random # This allows you to generate random numbers
 import select # This allows you to wait for a specific time for input from user
 import sys    # this allows you to read the user input from keyboard also called "stdin"
 
+import os # This module is used to check if we are running on pi
+import threading
+
+if (os.uname().nodename == 'raspberrypi'):
+    from ledControl import greenLedOn
+    from ledControl import redLedOn
+    from ledControl import buzzerOn
+    from ledControl import buzzerPulse
+    from ledControl import redLedBuzzerOn
+else:
+    from ledControlNoop import greenLedOn
+    from ledControlNoop import redLedOn
+    from ledControlNoop import buzzerOn
+    from ledControlNoop import buzzerPulse
+    from ledControlNoop import redLedBuzzerOn
+
 TIMEOUT=10  # this is the amount of time you will wait for an answer in Seconds. 10 means 10 seconds
 QUESTION_COUNT=10
 ANSWER_GOAL=8
+LED_ON_TIME=2
+BETTER_LUCK_TIME=3
+
+
+
+def buzzer(numOfPulses, totalTime, answeredEvent):
+    ''' This will run pulse the buzzer 5 times 1/2 second on , 1/2 second off
+        while waiting for the answered event'''
+    #print("The Buzzer Thread is started")
+    timeToWaitBeforePulsing = (totalTime - numOfPulses) if totalTime > numOfPulses else 0
+    if timeToWaitBeforePulsing > 0 :
+        answered = answeredEvent.wait(timeToWaitBeforePulsing)
+        
+    if answered:
+        return
+    else:
+        while numOfPulses > 0:
+            buzzerOn(0.5)
+            if answeredEvent.wait(0.5):
+                break
+            else:
+                numOfPulses -= 1
 
 
 def classOneQuiz(): # Class 1
@@ -13,13 +51,17 @@ def classOneQuiz(): # Class 1
     correctAnswers = 0
     while(questionCount < QUESTION_COUNT):
         if (additionQuestionClassOne()) :
-            correctAnswers = correctAnswers + 1;
+            greenLedOn(LED_ON_TIME)
+            correctAnswers = correctAnswers + 1
+        else:
+            redLedBuzzerOn(LED_ON_TIME)
         questionCount = questionCount + 1
     print("You got " + str(correctAnswers) + " correct");
     if(correctAnswers >= ANSWER_GOAL):
         print("congratulations!,you win!!!")
     else :
         print("sorry,better luck next time:)")
+        redLedBuzzerOn(BETTER_LUCK_TIME)
           
 
 
@@ -59,7 +101,12 @@ def additionQuestion(a,b): #class 1
 
     print("You have "+str(TIMEOUT)+" seconds to answer this question")
     print(str(a) + " + " + str(b) + " is : ")
+    ansEvent = threading.Event()
+    buzzerThread = threading.Thread(name='buzzerThread', 
+                    target=buzzer, args=[5, 10, ansEvent])
+    buzzerThread.start()
     answerReady, _, _ = select.select([sys.stdin],[],[],TIMEOUT)
+    ansEvent.set();
     # above line says that read from stdin and wait for TIMEOUT seconds 
     # If no response for TIMEOUT seconds, then retun false
     if answerReady : # if the answer has been input within the TIMEOUT seconds
@@ -85,7 +132,12 @@ def subtractionQuestion(a,b): #class 1
 
     print("You have "+str(TIMEOUT)+" seconds to answer this question")
     print(str(a) + " - " + str(b) + " is : ")
+    ansEvent = threading.Event()
+    buzzerThread = threading.Thread(name='buzzerThread', 
+                    target=buzzer, args=[5, 10, ansEvent])
+    buzzerThread.start()
     answerReady, _, _ = select.select([sys.stdin],[],[],TIMEOUT)
+    ansEvent.set();
     # above line says that read from stdin and wait for TIMEOUT seconds 
     # If no response for TIMEOUT seconds, then retun false
     if answerReady : # if the answer has been input within the TIMEOUT seconds
