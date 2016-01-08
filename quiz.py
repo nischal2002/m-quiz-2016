@@ -39,9 +39,9 @@ if __name__ == '__main__':
     print(QUIZ_INSTRUCTIONS)
     sys.stdin.readline()
     if (usersClass == 1) :
-       classOne.classOneQuiz()
+        classOne.classOneQuiz()
     elif (usersClass == 2) :
-       classTwo.classTwoQuiz()
+        classTwo.classTwoQuiz()
     elif(usersClass == 3):
         classThree.classThreeQuiz()
     elif(usersClass == 4):
