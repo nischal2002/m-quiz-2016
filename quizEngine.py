@@ -38,7 +38,7 @@ def buzzer(numOfPulses, totalTime, answeredEvent):
 
 
 def runQuestion(questionText,correctAnswer, timeout):
-    print("You have "+str(timeout)+" seconds to answer this question")
+    #print("You have "+str(timeout)+" seconds to answer this question")
     print(questionText)
     ansEvent = threading.Event()
     buzzerThread = threading.Thread(name='buzzerThread', 

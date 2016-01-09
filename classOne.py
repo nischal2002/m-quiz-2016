@@ -37,6 +37,7 @@ def classOneQuiz(): # Class 1
     print("You got " + str(correctAnswers) + " correct");
     if(correctAnswers >= ANSWER_GOAL):
         print("congratulations!,you win!!!")
+        greenLedOn(BETTER_LUCK_TIME)
     else:
         print("sorry,better luck next time:)")
         redLedBuzzerOn(BETTER_LUCK_TIME)
@@ -48,13 +49,13 @@ def getQuestionClassOne():
     if (random.randrange(0,2) == 1):
         a = getRandomSingleDigitInt()
         b = getRandomSingleDigitInt()
-        qText = "You "+str(TIMEOUT)+" seconds to answer this question\n"
+        qText = "You have "+str(TIMEOUT)+" seconds to answer this question\n"
         qText += str(a) + " + " + str(b) + " is : "
         return (qText,(a+b))
     else:
         a = getRandomSingleDigitInt()
         b = getRandomSingleDigitIntBelow(a)
-        qText = "You "+str(TIMEOUT)+" seconds to answer this question\n"
+        qText = "You have "+str(TIMEOUT)+" seconds to answer this question\n"
         qText += str(a) + " - " + str(b) + " is : "
         return (qText,(a-b))
 
